@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/339.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/339.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/339.png?v=">
+
+
+  <link rel="mask-icon" href="/images/339.png?v=" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="js,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1&amp;quot;知命者不怨天，知己者不怨人。&amp;quot; 1.js数组去重 方法一丶es5数组去重的思路: 1.遍历数组，新增空数组，判断新增数组IndexOf是否相等原数组，否则push 123456789var uniq = function(newArr) &amp;#123;		var temArr = []		for (var i = 0; i &amp;lt; newArr.length; i++)&amp;">
+<meta name="keywords" content="js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数组对象去重，对象的拷贝">
+<meta property="og:url" content="http://yoursite.com/2019/03/06/array/index.html">
+<meta property="og:site_name" content="liujiancong | Blog">
+<meta property="og:description" content="1&amp;quot;知命者不怨天，知己者不怨人。&amp;quot; 1.js数组去重 方法一丶es5数组去重的思路: 1.遍历数组，新增空数组，判断新增数组IndexOf是否相等原数组，否则push 123456789var uniq = function(newArr) &amp;#123;		var temArr = []		for (var i = 0; i &amp;lt; newArr.length; i++)&amp;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-03-15T10:56:12.697Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数组对象去重，对象的拷贝">
+<meta name="twitter:description" content="1&amp;quot;知命者不怨天，知己者不怨人。&amp;quot; 1.js数组去重 方法一丶es5数组去重的思路: 1.遍历数组，新增空数组，判断新增数组IndexOf是否相等原数组，否则push 123456789var uniq = function(newArr) &amp;#123;		var temArr = []		for (var i = 0; i &amp;lt; newArr.length; i++)&amp;">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/06/array/">
+
+
+
+
+
+  <title>数组对象去重，对象的拷贝 | liujiancong | Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">liujiancong | Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-picture">
+          <a href="/picture/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            图床
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/06/array/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jian Cong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avator.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="liujiancong | Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">数组对象去重，对象的拷贝</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-06T17:40:00+00:00">
+                2019-03-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;知命者不怨天，知己者不怨人。&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="1-js数组去重"><a href="#1-js数组去重" class="headerlink" title="1.js数组去重"></a>1.js数组去重</h4><p><strong> 方法一丶es5数组去重的思路: 1.遍历数组，新增空数组，判断新增数组IndexOf是否相等原数组，否则push </strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var uniq = function(newArr) &#123;</span><br><span class="line">		var temArr = []</span><br><span class="line">		for (var i = 0; i &lt; newArr.length; i++)&#123;</span><br><span class="line">			if(temArr.indexOf(newArr[i]) == -1)&#123;</span><br><span class="line">				temArr.push(newArr[i])</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return temArr</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p><strong> 方法二丶 通过双层遍历，判断第二个跟第三个的值是否相等,相等就通过splice删除原数组后一个元素 </strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function unique(arr)&#123;            </span><br><span class="line">        for(var i=0; i&lt;arr.length; i++)&#123;</span><br><span class="line">            for(var j=i+1; j&lt;arr.length; j++)&#123;</span><br><span class="line">                if(arr[i]==arr[j])&#123;        </span><br><span class="line">                    arr.splice(j,1);</span><br><span class="line">                    j--;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">return arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong> 方法三丶 运用es6的新特性，new Set 跟array from </strong><br>new Set():ES6 提供了新的数据结构 Set。它类似于数组，但是成员的值都是唯一的，没有重复的值。</p>
+<p>Set本身是一个构造函数，用来生成 Set 数据结构。</p>
+<p>Array.from()方法就是将一个类数组对象或者可遍历对象转换成一个真正的数组。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function unique (arr) &#123;</span><br><span class="line">  return Array.from(new Set(arr))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>1.浅拷贝： 将原对象或原数组的引用直接赋给新对象，新数组，新对象／数组只是原对象的一个引用<br>2.深拷贝： 创建一个新的对象和数组，将原对象的各项属性的“值”（数组的所有元素）拷贝过来，是“值”而不是“引用”</p>
+</blockquote>
+<h4 id="2-对象浅拷贝"><a href="#2-对象浅拷贝" class="headerlink" title="2.对象浅拷贝"></a>2.对象浅拷贝</h4><p>对象是 JavaScript 的基本块。对象是属性的集合，属性是键值对。JavaScript 中的几乎所有对象都是位于原型链顶部 Object 的实例。</p>
+<p>浅拷贝对象<br>当拷贝源对象的顶级属性被复制而没有任何引用，并且拷贝源对象存在一个值为对象的属性，被复制为一个引用时，那么我说这个对象被浅拷贝。如果拷贝源对象的属性值是对象的引用，则只将该引用值复制到目标对象。</p>
+<p>浅层复制将复制顶级属性，但是嵌套对象将在原始（源）对象和副本（目标）对象之间是共享。<br><strong>方法一丶循环遍历原始对象，然后一个一个地复制每个属性</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function copy(mainObj) &#123;</span><br><span class="line">  let objCopy = &#123;&#125;; // objCopy 将存储 mainObj 的副本</span><br><span class="line">  let key;</span><br><span class="line"></span><br><span class="line">  for (key in mainObj) &#123;</span><br><span class="line">    objCopy[key] = mainObj[key]; // 将每个属性复制到objCopy对象</span><br><span class="line">  &#125;</span><br><span class="line">  return objCopy;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>方法二丶使用Object.assign()方法</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">let obj = &#123;</span><br><span class="line">  a: 1,</span><br><span class="line">  b: 2,</span><br><span class="line">&#125;;</span><br><span class="line">let objCopy = Object.assign(&#123;&#125;, obj);</span><br><span class="line">console.log(objCopy);</span><br><span class="line">// Result - &#123; a: 1, b: 2 &#125;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>let obj = {<br>  a: 1,<br>  b: {<br>    c: 2,<br>  },<br>}<br>let newObj = Object.assign({}, obj);<br>console.log(newObj); // { a: 1, b: { c: 2} }<br>obj.a = 10;<br>console.log(obj); // { a: 10, b: { c: 2} }<br>console.log(newObj); // { a: 1, b: { c: 2} }<br>newObj.a = 20;<br>console.log(obj); // { a: 10, b: { c: 2} }<br>console.log(newObj); // { a: 20, b: { c: 2} }<br>newObj.b.c = 30;<br>console.log(obj); // { a: 10, b: { c: 30} }<br>console.log(newObj); // { a: 20, b: { c: 30} }<br>// 注意: newObj.b.c = 30; 为什么呢..</p>
+</blockquote>
+<p>Object.assign的缺点，如果原对象的某个属性值是一个对象，那么拷贝的目标对象更改对象里那个对象的属性值时，原对象属性值为对象的那个也将被改变，这不是我们想要的。</p>
+<p>这就是 Object.assign() 的陷阱。Object.assign 只是浅拷贝。 newObj.b 和 obj.b 都引用同一个对象，没有单独拷贝，而是复制了对该对象的引用。任何对对象属性的更改都适用于使用该对象的所有引用。<br><strong>方法三丶对象字面量的展开操作符能将源对象中的可枚举的属性复制到目标对象上。</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">let obj = &#123;</span><br><span class="line">  one: 1,</span><br><span class="line">  two: 2,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let newObj = &#123; ...z &#125;;</span><br><span class="line"></span><br><span class="line">// &#123; one: 1, two: 2 &#125;</span><br></pre></td></tr></table></figure></p>
+<p>注意：这将只对浅拷贝有效</p>
+<p>注意：原型链上的属性和不可枚举的属性不能复制。 看这里：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">let someObj = &#123;</span><br><span class="line">  a: 2,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let obj = Object.create(someObj, &#123;</span><br><span class="line">  b: &#123;</span><br><span class="line">    value: 2,  </span><br><span class="line">  &#125;,</span><br><span class="line">  c: &#123;</span><br><span class="line">    value: 3,</span><br><span class="line">    enumerable: true,  </span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">let objCopy = Object.assign(&#123;&#125;, obj);</span><br><span class="line">console.log(objCopy); // &#123; c: 3 &#125;</span><br></pre></td></tr></table></figure></p>
+<p>someObj 是在 obj 的原型链，所以它不会被复制。<br>属性 b 是不可枚举属性。<br>属性 c 具有 可枚举(enumerable) 属性描述符，所以它可以枚举。 这就是为什么它会被复制。</p>
+<h4 id="3-对象深拷贝"><a href="#3-对象深拷贝" class="headerlink" title="3.对象深拷贝"></a>3.对象深拷贝</h4><p>深度拷贝将拷贝遇到的每个对象。副本和原始对象不会共享任何东西，所以它将是原件的副本。以下是使用 Object.assign() 遇到问题的修复方案。</p>
+<p><strong>方法一丶使用JSON.parse(JSON.stringfy())</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">let obj = &#123;</span><br><span class="line">  a: 1,</span><br><span class="line">  b: &#123;</span><br><span class="line">    c: 2,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let newObj = JSON.parse(JSON.stringify(obj));</span><br><span class="line"></span><br><span class="line">obj.b.c = 20;</span><br><span class="line">console.log(obj); // &#123; a: 1, b: &#123; c: 20 &#125; &#125;</span><br><span class="line">console.log(newObj); // &#123; a: 1, b: &#123; c: 2 &#125; &#125; (一个新的对象)</span><br></pre></td></tr></table></figure></p>
+<p>陷阱：不幸的是，此方法不能用于复制用户定义的对象方法</p>
+<p><strong>解决方案：Object.assign可以复制对象里的方法</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">let obj = &#123;</span><br><span class="line">  name: &apos;scotch.io&apos;,</span><br><span class="line">  exec: function exec() &#123;</span><br><span class="line">    return true;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let method1 = Object.assign(&#123;&#125;, obj);</span><br><span class="line">let method2 = JSON.parse(JSON.stringify(obj));</span><br><span class="line"></span><br><span class="line">console.log(method1); //Object.assign(&#123;&#125;, obj)</span><br><span class="line">/* result</span><br><span class="line">&#123;</span><br><span class="line">  exec: function exec() &#123;</span><br><span class="line">    return true;</span><br><span class="line">  &#125;,</span><br><span class="line">  name: &quot;scotch.io&quot;</span><br><span class="line">&#125;</span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">console.log(method2); // JSON.parse(JSON.stringify(obj))</span><br><span class="line">/* result</span><br><span class="line">&#123;</span><br><span class="line">  name: &quot;scotch.io&quot;</span><br><span class="line">&#125;</span><br><span class="line">*/</span><br></pre></td></tr></table></figure></p>
+<p>结果表明，Object.assign() 可以用于复制对象的方法，而使用 JSON.parse(JSON.stringify(obj)) 则不行。<br><strong>方法二丶引入immutable</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const &#123; Map &#125; = require(&apos;immutable&apos;)</span><br><span class="line">const map1 = Map(&#123; a: 1, b: 2, c: 3 &#125;)</span><br><span class="line">const map2 = map1.set(&apos;b&apos;, 50)</span><br><span class="line">map1.get(&apos;b&apos;) // 2</span><br><span class="line">map2.get(&apos;b&apos;) // 50</span><br></pre></td></tr></table></figure></p>
+<p><strong>方法三丶循环遍历</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">let obj1 = &#123;</span><br><span class="line">  a: &apos;1&apos;,</span><br><span class="line">  b: &apos;2&apos;,</span><br><span class="line">  c: &#123;</span><br><span class="line">    d: &apos;3&apos;</span><br><span class="line">  &#125;,</span><br><span class="line">  d: function aa () &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line">function deepCopy (obj) &#123;</span><br><span class="line">  let temp = obj.constructor === Array ? [] : &#123;&#125;</span><br><span class="line">  for (let val in obj) &#123;</span><br><span class="line">    temp[val] = typeof obj[val] == &apos;object&apos; ? deepCopy(obj[val]) : obj[val]</span><br><span class="line">  &#125;</span><br><span class="line">  return temp</span><br><span class="line">&#125;</span><br><span class="line">console.log(deepCopy(obj1)) //&#123; a: &apos;1&apos;, b: &apos;2&apos;, c: &#123; d: &apos;3&apos; &#125;, d: [Function: aa] &#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/js/" rel="tag"><i class="fa fa-tag"></i> js</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/28/vueAxios/" rel="next" title="axiso的使用">
+                <i class="fa fa-chevron-left"></i> axiso的使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/11/arrRandom/" rel="prev" title="数组排序，检测字符串取最多的字符">
+                数组排序，检测字符串取最多的字符 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avator.jpg" alt="jian Cong">
+            
+              <p class="site-author-name" itemprop="name">jian Cong</p>
+              <p class="site-description motion-element" itemprop="description">This is liu jiancong's blog</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/congcong93424" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-js数组去重"><span class="nav-number">1.</span> <span class="nav-text">1.js数组去重</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-对象浅拷贝"><span class="nav-number">2.</span> <span class="nav-text">2.对象浅拷贝</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-对象深拷贝"><span class="nav-number">3.</span> <span class="nav-text">3.对象深拷贝</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jian Cong</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+<span class="post-meta-divider">|</span>
+<i class="fa fa-eye"></i>
+<span id="busuanzi_container_site_uv"> 你是来访的第 <span id="busuanzi_value_site_uv"></span> 位小伙伴</span>
+<span class="post-meta-divider">|</span>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+  <div class="bg_content">
+    <canvas id="canvas"></canvas>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v="></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v="></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v="></script>
+<script type="text/javascript" src="/js/src/post-details.js?v="></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v="></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <script type="text/javascript" src="/js/src/dynamic_bg.js"></script>
+</body>
+</html>
